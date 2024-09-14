@@ -1,0 +1,46 @@
+/* HomePage.css */
+.homepage-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  /* No background for the entire page */
+}
+
+.homepage-card-container {
+  display: flex;
+  gap: 20px; /* Space between items */
+}
+
+.homepage-card {
+  background-color: #ede5e5; /* White background for the card */
+  border-radius: 10px; /* Rounded corners for the card */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for the card */
+  padding: 20px;
+  width: 250px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for hover effects */
+}
+
+.homepage-card:hover {
+  transform: scale(1.05); /* Slight scale-up effect on hover */
+  box-shadow: 0 6px 12px rgba(10, 6, 6, 0.2); /* Enhanced shadow on hover */
+}
+
+.homepage-card-icon {
+  font-size: 3rem; /* Large icon size */
+  color: #007bff; /* Primary color for the icon */
+  margin-bottom: 10px; /* Space between icon and text */
+}
+
+.homepage-card-title {
+  font-size: 1.5rem;
+  margin-bottom: 10px; /* Space between title and description */
+  font-weight: bold;
+}
+
+.homepage-card-description {
+  font-size: 1rem;
+  color: #284055; /* Secondary text color */
+}

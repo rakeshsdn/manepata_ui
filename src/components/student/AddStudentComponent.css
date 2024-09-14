@@ -1,0 +1,46 @@
+.add-student-container {
+  padding: 20px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.card {
+  border-radius: 15px;
+  background-color: #f9f9f9;
+}
+
+h2 {
+  font-family: "Arial", sans-serif;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-label {
+  font-weight: bold;
+  color: #555;
+}
+
+.form-control {
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+}
+
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+  transition: background-color 0.3s ease;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  transition: background-color 0.3s ease;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
