@@ -5,10 +5,41 @@ import { fetchAttendanceList } from "../../services/AttendanceService";
 
 const Attendance = () => {
   const dummyData = [
-    { id: 1, name: "John Doe", rollNumber: "101" },
-    { id: 2, name: "Jane Smith", rollNumber: "102" },
-    { id: 3, name: "Alice Johnson", rollNumber: "103" },
-    { id: 4, name: "Bob Brown", rollNumber: "104" },
+    {
+      studentId: 1,
+      firstName: "John",
+      lastName: "Doe",
+      centerId: 2,
+      status: null, // status is null initially, it will be updated during attendance submission
+    },
+    {
+      studentId: 2,
+      firstName: "Jane",
+      lastName: "Smith",
+      centerId: 2,
+      status: null,
+    },
+    {
+      studentId: 3,
+      firstName: "Alice",
+      lastName: "Johnson",
+      centerId: 2,
+      status: null,
+    },
+    {
+      studentId: 4,
+      firstName: "Bob",
+      lastName: "Brown",
+      centerId: 2,
+      status: null,
+    },
+    {
+      studentId: 5,
+      firstName: "Shriya",
+      lastName: "Byadgi",
+      centerId: 2,
+      status: null,
+    },
   ];
 
   const [students, setStudents] = useState([]);
@@ -25,16 +56,16 @@ const Attendance = () => {
         // Initialize attendance with default values (Absent)
         const initialAttendance = {};
         response.data.forEach((student) => {
-          initialAttendance[student.id] = false; // Default value (not present)
+          initialAttendance[student.studentId] = false; // Default value (not present)
         });
         setAttendance(initialAttendance);
       } catch (error) {
         console.error("Error fetching students:", error);
       }
-      setStudents(dummyData); // Set the dummy data for testing purposes
     };
 
     loadAttendance();
+    setStudents(dummyData);
   }, [centerId]);
 
   // Handle individual attendance change
@@ -50,7 +81,7 @@ const Attendance = () => {
     setSelectAll(!selectAll);
     const updatedAttendance = {};
     students.forEach((student) => {
-      updatedAttendance[student.id] = !selectAll;
+      updatedAttendance[student.studentId] = !selectAll;
     });
     setAttendance(updatedAttendance);
   };
@@ -58,23 +89,27 @@ const Attendance = () => {
   const handleSubmit = async () => {
     try {
       for (const studentId in attendance) {
-        const student = students.find((s) => s.id === parseInt(studentId));
-        const attendanceData = {
-          name: student.name,
-          rollNumber: student.rollNumber,
-          attendance: attendance[studentId] ? "yes" : "no",
+        const student = students.find(
+          (s) => s.studentId === parseInt(studentId)
+        );
+        // const attendanceData = {
+        //   firstName: student.firstName,
+        //   lastName: student.lastName,
+        //   attendance: attendance[studentId] ? "yes" : "no",
+        // };
+
+        const newAttendenceData = {
+          studentId: studentId,
+          centerId: centerId,
+          status: attendance[studentId] ? "yes" : "no",
         };
-        console.log(attendanceData.rollNumber, centerId, attendanceData);
 
         try {
-          await updateAttendance(
-            attendanceData.rollNumber,
-            centerId,
-            attendanceData
-          ); // Call the API to update attendance
+          console.log(newAttendenceData);
+          await updateAttendance(studentId, centerId, newAttendenceData); // Call the API to update attendance
         } catch (error) {
           console.error(
-            `Error updating attendance for roll number ${attendanceData.rollNumber}:`,
+            `Error updating attendance for student ID ${studentId}:`,
             error
           );
         }
@@ -99,21 +134,24 @@ const Attendance = () => {
       <table className="table table-striped">
         <thead className="thead-dark">
           <tr>
+            <th>Student ID</th>
             <th>Student Name</th>
-            <th>Roll Number</th>
             <th>Present</th>
           </tr>
         </thead>
         <tbody>
           {students.map((student) => (
-            <tr key={student.id}>
-              <td>{student.name}</td>
-              <td>{student.rollNumber}</td>
+            <tr key={student.studentId}>
+              <td>{student.studentId}</td> {/* Display studentId */}
+              <td>
+                {student.firstName} {student.lastName}
+              </td>{" "}
+              {/* Display student name */}
               <td>
                 <input
                   type="checkbox"
-                  checked={attendance[student.id] || false}
-                  onChange={() => handleAttendanceChange(student.id)}
+                  checked={attendance[student.studentId] || false}
+                  onChange={() => handleAttendanceChange(student.studentId)}
                 />
               </td>
             </tr>

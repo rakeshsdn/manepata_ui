@@ -8,7 +8,7 @@ export const fetchAttendanceList = (centerId) =>
 
 // Function to update attendance for a student
 export const updateAttendance = (studentId, centerId, attendanceData) =>
-  axios.put(`${REST_API_BASE_URL}/${centerId}/${studentId}`, attendanceData, {
+  axios.post(`${REST_API_BASE_URL}/${centerId}/${studentId}`, attendanceData, {
     headers: {
       "Content-Type": "application/json",
     },

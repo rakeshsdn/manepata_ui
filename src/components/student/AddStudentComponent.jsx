@@ -1,4 +1,3 @@
-// AddStudentComponent.js
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -13,11 +12,11 @@ const AddStudentComponent = () => {
   const [isEditMode, setIsEditMode] = useState(false);
 
   const navigate = useNavigate();
-  const { id, id: centerId } = useParams();
+  const { studentId, id: centerId } = useParams(); // Differentiate between studentId and centerId
 
   useEffect(() => {
-    if (id) {
-      fetchStudentById(id, centerId);
+    if (studentId) {
+      fetchStudentById(studentId, centerId);
     } else {
       setInitialValues({
         firstName: "",
@@ -33,11 +32,11 @@ const AddStudentComponent = () => {
         details: "",
       });
     }
-  }, [id]);
+  }, [studentId, centerId]); // Add centerId as a dependency
 
-  const fetchStudentById = async (id, centerId) => {
+  const fetchStudentById = async (studentId, centerId) => {
     try {
-      const response = await getStudent(id, centerId);
+      const response = await getStudent(studentId, centerId); // Fetch student using both studentId and centerId
       const studentData = response.data;
       setInitialValues(studentData);
       setIsEditMode(true);
@@ -48,17 +47,19 @@ const AddStudentComponent = () => {
 
   const handleSubmit = async (formValues) => {
     try {
+      // Add centerId to the form values
+      const updatedFormValues = { ...formValues, centerId };
+      
       if (isEditMode) {
-        await updateStudent(id, formValues, centerId);
+        await updateStudent(studentId, updatedFormValues, centerId);
       } else {
-        await createStudent(formValues, centerId);
+        await createStudent(updatedFormValues, centerId); // Passing updated formValues with centerId
       }
       navigate(`/list-student/${centerId}`);
     } catch (error) {
-      console.error("Error saving student data:", error);
+      console.error("Error saving student data:",e);
     }
   };
-
   const handleCancel = () => {
     navigate(`/list-student/${centerId}`);
   };
