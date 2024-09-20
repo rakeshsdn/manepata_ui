@@ -89,15 +89,6 @@ const Attendance = () => {
   const handleSubmit = async () => {
     try {
       for (const studentId in attendance) {
-        const student = students.find(
-          (s) => s.studentId === parseInt(studentId)
-        );
-        // const attendanceData = {
-        //   firstName: student.firstName,
-        //   lastName: student.lastName,
-        //   attendance: attendance[studentId] ? "yes" : "no",
-        // };
-
         const newAttendenceData = {
           studentId: studentId,
           centerId: centerId,
@@ -142,11 +133,8 @@ const Attendance = () => {
         <tbody>
           {students.map((student) => (
             <tr key={student.studentId}>
-              <td>{student.studentId}</td> {/* Display studentId */}
-              <td>
-                {student.firstName} {student.lastName}
-              </td>{" "}
-              {/* Display student name */}
+              <td>{student.studentId}</td>
+              <td>{`${student.firstName} ${student.lastName}`}</td>
               <td>
                 <input
                   type="checkbox"
