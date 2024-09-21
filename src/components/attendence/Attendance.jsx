@@ -4,44 +4,6 @@ import { useParams } from "react-router-dom";
 import { fetchAttendanceList } from "../../services/AttendanceService";
 
 const Attendance = () => {
-  const dummyData = [
-    {
-      studentId: 1,
-      firstName: "John",
-      lastName: "Doe",
-      centerId: 2,
-      status: null, // status is null initially, it will be updated during attendance submission
-    },
-    {
-      studentId: 2,
-      firstName: "Jane",
-      lastName: "Smith",
-      centerId: 2,
-      status: null,
-    },
-    {
-      studentId: 3,
-      firstName: "Alice",
-      lastName: "Johnson",
-      centerId: 2,
-      status: null,
-    },
-    {
-      studentId: 4,
-      firstName: "Bob",
-      lastName: "Brown",
-      centerId: 2,
-      status: null,
-    },
-    {
-      studentId: 5,
-      firstName: "Shriya",
-      lastName: "Byadgi",
-      centerId: 2,
-      status: null,
-    },
-  ];
-
   const [students, setStudents] = useState([]);
   const [attendance, setAttendance] = useState({});
   const { id: centerId } = useParams();
@@ -65,7 +27,6 @@ const Attendance = () => {
     };
 
     loadAttendance();
-    setStudents(dummyData);
   }, [centerId]);
 
   // Handle individual attendance change
