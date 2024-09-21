@@ -4,14 +4,6 @@ import * as XLSX from "xlsx";
 import { listCenters, deleteCenter } from "../../services/CenterService"; // Import the service functions
 
 const ListCenterComponent = () => {
-  const duumycenters = [
-    {
-      id: 1,
-      name: "banglore",
-      address: "whitefield",
-    },
-  ];
-
   const [centers, setCenters] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [centersPerPage, setCentersPerPage] = useState(5);
@@ -26,7 +18,6 @@ const ListCenterComponent = () => {
       .catch((error) => {
         console.error("There was an error fetching the centers!", error);
       });
-    setCenters(duumycenters);
   }, []);
 
   const handleAddCenter = () => {
