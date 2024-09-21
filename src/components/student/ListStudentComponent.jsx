@@ -12,37 +12,6 @@ import "jspdf-autotable";
 import { Modal, Button } from "react-bootstrap";
 
 const ListStudentComponent = () => {
-  const dummyStudents = [
-    {
-      id: 1,
-      firstName: "John",
-      lastName: "Doe",
-      age: 15,
-      dateOfBirth: "2009-05-15",
-      motherName: "Jane Doe",
-      fatherName: "Richard Doe",
-      motherOccupation: "Teacher",
-      fatherOccupation: "Engineer",
-      grade: "10",
-      gender: "Male",
-      details: "Excellent student in mathematics.",
-    },
-    {
-      id: 2,
-      firstName: "Emily",
-      lastName: "Smith",
-      age: 14,
-      dateOfBirth: "2010-09-22",
-      motherName: "Alice Smith",
-      fatherName: "Tom Smith",
-      motherOccupation: "Doctor",
-      fatherOccupation: "Architect",
-      grade: "9",
-      gender: "Female",
-      details: "Active in sports and drama.",
-    },
-  ];
-
   const [students, setStudents] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [studentsPerPage, setStudentsPerPage] = useState(5);
@@ -61,7 +30,6 @@ const ListStudentComponent = () => {
       .catch((error) => {
         console.error("There was an error fetching the students!", error);
       });
-    setStudents(dummyStudents);
   }, []);
 
   const handleAddStudent = () => {
