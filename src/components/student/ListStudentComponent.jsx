@@ -30,7 +30,7 @@ const ListStudentComponent = () => {
       .catch((error) => {
         console.error("There was an error fetching the students!", error);
       });
-  }, []);
+  }, [centerId]);
 
   const handleAddStudent = () => {
     navigate(`/add-student/${centerId}`);
