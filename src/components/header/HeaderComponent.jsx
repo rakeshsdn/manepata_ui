@@ -1,9 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import UserContext from "../state/UserContext";
 
 const HeaderComponent = () => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
     // Check if the token exists in local storage
@@ -24,12 +26,16 @@ const HeaderComponent = () => {
     localStorage.removeItem("token");
     // Update the state
     setIsLoggedIn(false);
+    setUser((prevUser) => {
+      const updatedUser = {
+        ...prevUser,
+        isLoggedIn: false,
+      };
+      console.log("Updated user state:", updatedUser); // Log the updated user state here
+      return updatedUser; // Return the updated state
+    });
     // Redirect to login page
     navigate("/login");
-  };
-
-  const handleSignUp = () => {
-    navigate("/signup");
   };
 
   return (
@@ -46,13 +52,17 @@ const HeaderComponent = () => {
             <button className="btn btn-primary me-2" onClick={handleHomePage}>
               Home Page
             </button>
+            {user.isAdmin ? (
+              <button className="btn btn-primary me-2" onClick={handleLogout}>
+                Add User
+              </button>
+            ) : (
+              ""
+            )}
             {!isLoggedIn ? (
               <>
                 <button className="btn btn-primary me-2" onClick={handleLogin}>
                   Login
-                </button>
-                <button className="btn btn-secondary" onClick={handleSignUp}>
-                  Sign Up
                 </button>
               </>
             ) : (

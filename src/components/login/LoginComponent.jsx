@@ -1,12 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./LoginComponent.css";
+import UserContext from "../state/UserContext";
 
 const LoginComponent = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const { setUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -50,6 +52,10 @@ const LoginComponent = () => {
           email,
           password,
         });
+
+        if (response.ok) {
+          setUser(response.data);
+        }
 
         const { token, expiresIn } = response.data;
 

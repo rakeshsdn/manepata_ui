@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as XLSX from "xlsx";
 import "./ListStudentComponent.css"; // Import CSS for styling
@@ -10,6 +10,7 @@ import {
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 import { Modal, Button } from "react-bootstrap";
+import UserContext from "../state/UserContext";
 
 const ListStudentComponent = () => {
   const [students, setStudents] = useState([]);
@@ -20,6 +21,7 @@ const ListStudentComponent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { id: centerId } = useParams();
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     // Fetch students data when the component mounts
@@ -41,19 +43,27 @@ const ListStudentComponent = () => {
   };
 
   const handleDeleteStudent = (id) => {
-    // Show a confirmation dialog to the user
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this student?"
-    );
+    if (user.isAdmin) {
+      // Show a confirmation dialog to the user
+      const confirmDelete = window.confirm(
+        "Are you sure you want to delete this student?"
+      );
 
-    if (confirmDelete) {
-      deleteStudent(id, centerId)
-        .then(() => {
-          setStudents(students.filter((student) => student.id !== id));
-        })
-        .catch((error) => {
-          console.error("There was an error deleting the student!", error);
-        });
+      if (confirmDelete) {
+        deleteStudent(id, centerId)
+          .then(() => {
+            // Filter out the deleted student from the list
+            setStudents(students.filter((student) => student.id !== id));
+          })
+          .catch((error) => {
+            console.error("There was an error deleting the student!", error);
+          });
+      }
+    } else {
+      // Show a warning if the user is not an admin
+      alert(
+        "You are not authorized to delete this student. Admin access required."
+      );
     }
   };
 
@@ -318,73 +328,73 @@ const ListStudentComponent = () => {
                 <tbody>
                   <tr>
                     <td>
-                      <strong>ID:</strong>
+                      <strong>ID</strong>
                     </td>
                     <td>{selectedStudent.id}</td>
                   </tr>
                   <tr>
                     <td>
-                      <strong>First Name:</strong>
+                      <strong>First Name</strong>
                     </td>
                     <td>{selectedStudent.firstName}</td>
                   </tr>
                   <tr>
                     <td>
-                      <strong>Last Name:</strong>
+                      <strong>Last Name</strong>
                     </td>
                     <td>{selectedStudent.lastName}</td>
                   </tr>
                   <tr>
                     <td>
-                      <strong>Age:</strong>
+                      <strong>Age</strong>
                     </td>
                     <td>{selectedStudent.age}</td>
                   </tr>
                   <tr>
                     <td>
-                      <strong>Date of Birth:</strong>
+                      <strong>Date of Birth</strong>
                     </td>
                     <td>{selectedStudent.dateOfBirth}</td>
                   </tr>
                   <tr>
                     <td>
-                      <strong>Mother&apos;s Name:</strong>
+                      <strong>Mother&apos;s Name</strong>
                     </td>
                     <td>{selectedStudent.motherName}</td>
                   </tr>
                   <tr>
                     <td>
-                      <strong>Father&apos;s Name:</strong>
+                      <strong>Father&apos;s Name</strong>
                     </td>
                     <td>{selectedStudent.fatherName}</td>
                   </tr>
                   <tr>
                     <td>
-                      <strong>Mother&apos;s Occupation:</strong>
+                      <strong>Mother&apos;s Occupation</strong>
                     </td>
                     <td>{selectedStudent.motherOccupation}</td>
                   </tr>
                   <tr>
                     <td>
-                      <strong>Father&apos;s Occupation:</strong>
+                      <strong>Father&apos;s Occupation</strong>
                     </td>
                     <td>{selectedStudent.fatherOccupation}</td>
                   </tr>
                   <tr>
                     <td>
-                      <strong>Grade:</strong>
+                      <strong>Grade</strong>
                     </td>
                     <td>{selectedStudent.grade}</td>
                   </tr>
                   <tr>
                     <td>
-                      <strong>Gender:</strong>
+                      <strong>Gender</strong>
                     </td>
                     <td>{selectedStudent.gender}</td>
                   </tr>
                   <tr>
                     <td>
-                      <strong>Details:</strong>
+                      <strong>Details</strong>
                     </td>
                     <td>{selectedStudent.details}</td>
                   </tr>

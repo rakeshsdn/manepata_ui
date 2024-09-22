@@ -19,6 +19,11 @@ const HomePage = () => {
           <h3 className="homepage-card-title">Centers</h3>
           <p className="homepage-card-description">Manage center details.</p>
         </div>
+        <div className="homepage-card" onClick={() => handleNavigate("/users")}>
+          <i className="fas fa-building homepage-card-icon"></i>
+          <h3 className="homepage-card-title">Users</h3>
+          <p className="homepage-card-description">Manage user details.</p>
+        </div>
       </div>
     </div>
   );

@@ -1,4 +1,3 @@
-// ReusableForm.js
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import "./Form.css";
@@ -60,16 +59,36 @@ const Form = ({
                   <div className="row mb-3" key={field.name}>
                     <div className={field.colClass || "col-md-12"}>
                       <label className="form-label">{field.label}:</label>
-                      <input
-                        type={field.type}
-                        placeholder={field.placeholder}
-                        name={field.name}
-                        className={`form-control ${
-                          errors[field.name] ? "is-invalid" : ""
-                        }`}
-                        value={formValues[field.name] || ""}
-                        onChange={handleChange}
-                      />
+                      {field.type === "select" ? (
+                        <select
+                          name={field.name}
+                          className={`form-control ${
+                            errors[field.name] ? "is-invalid" : ""
+                          }`}
+                          value={formValues[field.name] || ""}
+                          onChange={handleChange}
+                        >
+                          <option value="" disabled>
+                            --Select {field.label}--
+                          </option>
+                          {field.options.map((option) => (
+                            <option key={option.value} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
+                        </select>
+                      ) : (
+                        <input
+                          type={field.type}
+                          placeholder={field.placeholder}
+                          name={field.name}
+                          className={`form-control ${
+                            errors[field.name] ? "is-invalid" : ""
+                          }`}
+                          value={formValues[field.name] || ""}
+                          onChange={handleChange}
+                        />
+                      )}
                       {errors[field.name] && (
                         <div className="invalid-feedback">
                           {errors[field.name]}
@@ -108,6 +127,12 @@ Form.propTypes = {
       type: PropTypes.string,
       placeholder: PropTypes.string,
       required: PropTypes.bool,
+      options: PropTypes.arrayOf(
+        PropTypes.shape({
+          label: PropTypes.string.isRequired,
+          value: PropTypes.string.isRequired,
+        })
+      ),
       validation: PropTypes.shape({
         regex: PropTypes.instanceOf(RegExp),
         message: PropTypes.string,
