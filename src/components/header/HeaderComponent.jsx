@@ -8,9 +8,20 @@ const HeaderComponent = () => {
   const { user, setUser } = useContext(UserContext);
 
   useEffect(() => {
-    // Check if the token exists in local storage
-    const token = localStorage.getItem("token");
-    setIsLoggedIn(!!token);
+    const checkToken = () => {
+      // Get the token from local storage
+      const token = localStorage.getItem("token");
+
+      // Check if the token exists and update state
+      if (token) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    };
+    // Call the checkToken function
+    checkToken();
+    // Optionally, you could add logic to clean up or recheck the token on certain intervals
   }, []);
 
   const handleLogin = () => {
