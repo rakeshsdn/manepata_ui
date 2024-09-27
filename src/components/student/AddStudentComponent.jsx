@@ -49,7 +49,7 @@ const AddStudentComponent = () => {
     try {
       // Add centerId to the form values
       const updatedFormValues = { ...formValues, centerId };
-      
+
       if (isEditMode) {
         await updateStudent(studentId, updatedFormValues, centerId);
       } else {
@@ -57,7 +57,7 @@ const AddStudentComponent = () => {
       }
       navigate(`/list-student/${centerId}`);
     } catch (error) {
-      console.error("Error saving student data:",e);
+      console.error("Error saving student data:", error);
     }
   };
   const handleCancel = () => {
@@ -132,7 +132,11 @@ const AddStudentComponent = () => {
       name: "gender",
       label: "Gender",
       type: "select",
-      options: ["Male", "Female", "Other"], // Dropdown options
+      options: [
+        { label: "Male", value: "Male" },
+        { label: "Female", value: "Female" },
+        { label: "Others", value: "Others" },
+      ],
       placeholder: "Select gender",
       required: true,
     },
