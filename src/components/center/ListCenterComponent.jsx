@@ -2,8 +2,17 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
 import { listCenters, deleteCenter } from "../../services/CenterService"; // Import the service functions
+import SearchCategory from "../search/Searchcategory";
 
 const ListCenterComponent = () => {
+  const categories = [
+    "All",
+    "ID",
+    "Username",
+    "First Name",
+    "Last Name",
+    "Email",
+  ];
   const [centers, setCenters] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [centersPerPage, setCentersPerPage] = useState(5);
@@ -67,6 +76,11 @@ const ListCenterComponent = () => {
     reader.readAsBinaryString(file);
   };
 
+  const handleSearch = (term, category) => {
+    //setSearchTerm(term);
+    //setSelectedCategory(category);
+  };
+
   // Pagination logic
   const indexOfLastCenter = currentPage * centersPerPage;
   const indexOfFirstCenter = indexOfLastCenter - centersPerPage;
@@ -98,7 +112,7 @@ const ListCenterComponent = () => {
           Add Center
         </button>
 
-        <label className="btn btn-secondary d-flex align-items-center">
+        <label className="btn btn-secondary d-flex align-items-center me-2">
           <i className="fas fa-upload me-2"></i>
           Upload Excel
           <input
@@ -108,6 +122,11 @@ const ListCenterComponent = () => {
             style={{ display: "none" }}
           />
         </label>
+        <SearchCategory
+          className="me-2"
+          categories={categories}
+          onSearch={handleSearch}
+        />
         <div className="dropdown-container">
           <select
             className="form-select dropdown-select"
