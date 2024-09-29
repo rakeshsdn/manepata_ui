@@ -25,6 +25,9 @@ const AddUser = () => {
     secondaryPhoneNumber: "",
     isActive: true,
     enabled: true,
+    isAdmin: false, // New field
+    centerId: "", // New field
+    role: "teacher", // New field with default value
   });
   const [isEditMode, setIsEditMode] = useState(false);
 
@@ -58,6 +61,9 @@ const AddUser = () => {
         secondaryPhoneNumber: userData.secondaryPhoneNumber || "",
         isActive: userData.isActive ?? true,
         enabled: userData.enabled ?? true,
+        isAdmin: userData.isAdmin ?? false,
+        centerId: userData.centerId || "", // Set centerId
+        role: userData.role || "teacher", // Set role
       });
       setIsEditMode(true);
     } catch (error) {
@@ -68,22 +74,26 @@ const AddUser = () => {
   const handleSubmit = async (formValues) => {
     try {
       const userData = {
+        id: isEditMode ? id : null,  // Include id when editing
         username: formValues.username,
-        firstname: formValues.firstname,
-        lastname: formValues.lastname,
-        email: formValues.email,
         password: formValues.password,
-        DOB: formValues.DOB,
+        email: formValues.email,
+        firstName: formValues.firstname, // Match the backend field names
+        lastName: formValues.lastname,     // Match the backend field names
+        dateOfBirth: formValues.DOB,       // Match the backend field names
+        centerId: formValues.isAdmin ? null : formValues.centerId, // Conditional handling
         gender: formValues.gender,
-        phoneNumber: formValues.phoneNumber,
         country: formValues.country,
         state: formValues.state,
         city: formValues.city,
         address: formValues.address,
         postalCode: formValues.postalCode,
+        phoneNumber: formValues.phoneNumber,
         secondaryPhoneNumber: formValues.secondaryPhoneNumber,
-        isActive: formValues.isActive,
+        isActive: formValues.isActive ?? null,  // Use null if the value is falsy
         enabled: formValues.enabled,
+        isAdmin: formValues.isAdmin,
+        role: formValues.role,
       };
 
       if (isEditMode) {
@@ -97,6 +107,7 @@ const AddUser = () => {
       console.error("Error saving user data:", error);
     }
   };
+
 
   const handleCancel = () => {
     navigate("/users");
@@ -220,6 +231,29 @@ const AddUser = () => {
         { label: "True", value: true },
         { label: "False", value: false },
       ],
+      required: true,
+    },
+    {
+      name: "isAdmin",
+      label: "Is Admin",
+      type: "select",
+      options: [
+        { label: "Yes", value: true },
+        { label: "No", value: false },
+      ],
+      required: true,
+    },
+    {
+      name: "centerId",
+      label: "Center ID",
+      type: "number",
+      placeholder: "Enter center ID (optional)",
+    },
+    {
+      name: "role",
+      label: "Role",
+      type: "select",
+      options: [{ label: "Teacher", value: "teacher" }],
       required: true,
     },
   ];

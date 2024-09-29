@@ -8,6 +8,7 @@ const Attendance = () => {
   const [attendance, setAttendance] = useState({});
   const { id: centerId } = useParams();
   const [selectAll, setSelectAll] = useState(false);
+  const [attendanceTaken, setAttendanceTaken] = useState(false); // New state to track attendance taken
 
   // Fetch student list and initialize attendance on component load
   useEffect(() => {
@@ -15,10 +16,17 @@ const Attendance = () => {
       try {
         const response = await fetchAttendanceList(centerId);
         setStudents(response.data);
+
+        // Check if the first student's attendance is already taken
+        if (response.data.length > 0 && response.data[0].status === "yes") {
+          alert("Attendance taken for today!"); // Show popup
+          setAttendanceTaken(true); // Set the state to disable the submit button
+        }
+
         // Initialize attendance with default values (Absent)
         const initialAttendance = {};
         response.data.forEach((student) => {
-          initialAttendance[student.studentId] = false; // Default value (not present)
+          initialAttendance[student.studentId] = student.status === "yes"; // Default value based on API response
         });
         setAttendance(initialAttendance);
       } catch (error) {
@@ -80,6 +88,7 @@ const Attendance = () => {
           type="checkbox"
           checked={selectAll}
           onChange={handleSelectAllChange}
+          disabled={attendanceTaken} // Disable if attendance is already taken
         />
         <label className="ms-2">Mark All as Present</label>
       </div>
@@ -101,6 +110,7 @@ const Attendance = () => {
                   type="checkbox"
                   checked={attendance[student.studentId] || false}
                   onChange={() => handleAttendanceChange(student.studentId)}
+                  disabled={attendanceTaken} // Disable if attendance is already taken
                 />
               </td>
             </tr>
@@ -108,7 +118,11 @@ const Attendance = () => {
         </tbody>
       </table>
       <div className="text-center">
-        <button className="btn btn-primary" onClick={handleSubmit}>
+        <button
+          className="btn btn-primary"
+          onClick={handleSubmit}
+          disabled={attendanceTaken} // Disable the button if attendance is already taken
+        >
           Submit Attendance
         </button>
       </div>

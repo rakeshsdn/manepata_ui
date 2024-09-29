@@ -2,7 +2,7 @@ import HeaderComponent from "./components/header/HeaderComponent";
 import "./App.css";
 import ListStudentComponent from "./components/student/ListStudentComponent";
 import AddStudentComponent from "./components/student/AddStudentComponent";
-import { Route, Routes, BrowserRouter, Navigate } from "react-router-dom";
+import { Route, Routes, BrowserRouter, Navigate, HashRouter} from "react-router-dom";
 import AddCenterComponent from "./components/center/AddCenterComponent";
 import LoginComponent from "./components/login/LoginComponent";
 import FooterComponent from "./components/footer/FooterComponent";
@@ -62,7 +62,7 @@ function App() {
       <div id="root">
         <div className="content">
           <div>
-            <BrowserRouter>
+            <HashRouter>
               <HeaderComponent />
               <div className="container">
                 <Routes>
@@ -167,7 +167,7 @@ function App() {
                   />
                 </Routes>
               </div>
-            </BrowserRouter>
+            </HashRouter>
           </div>
         </div>
         <FooterComponent />

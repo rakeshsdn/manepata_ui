@@ -5,7 +5,7 @@ import "./LoginComponent.css";
 import UserContext from "../state/UserContext";
 
 const LoginComponent = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const { setUser } = useContext(UserContext);
@@ -30,10 +30,8 @@ const LoginComponent = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    if (!email) {
-      newErrors.email = "Email is required";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.email = "Invalid email format";
+    if (!username) {
+      newErrors.username = "Username is required";
     }
     if (!password) {
       newErrors.password = "Password is required";
@@ -49,7 +47,7 @@ const LoginComponent = () => {
     if (validateForm()) {
       try {
         const response = await axios.post("http://localhost:8080/api/login", {
-          email,
+          username,
           password,
         });
 
@@ -84,14 +82,14 @@ const LoginComponent = () => {
         <form onSubmit={handleSubmit}>
           <div className="form-group mb-3">
             <input
-              type="email"
-              className={`form-control ${errors.email ? "is-invalid" : ""}`}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Email"
+              type="username"
+              className={`form-control ${errors.username ? "is-invalid" : ""}`}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="username"
             />
-            {errors.email && (
-              <div className="invalid-feedback">{errors.email}</div>
+            {errors.username && (
+              <div className="invalid-feedback">{errors.username}</div>
             )}
           </div>
           <div className="form-group mb-3">

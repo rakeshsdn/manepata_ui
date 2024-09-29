@@ -8,7 +8,7 @@ export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({
     userName: "asif",
     isLoggedIn: true,
-    isAdmin: false,
+    isAdmin: true,
   }); // This will hold the user data after login
 
   return (

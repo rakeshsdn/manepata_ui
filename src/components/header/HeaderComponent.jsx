@@ -57,19 +57,12 @@ const HeaderComponent = () => {
           style={{ paddingLeft: "5px", paddingRight: "5px" }}
         >
           <div>
-            <a className="navbar-brand">Attendance Management Application</a>
+            <a className="navbar-brand">KIF-MANEPATA</a>
           </div>
           <div className="ms-auto d-flex">
             <button className="btn btn-primary me-2" onClick={handleHomePage}>
               Home Page
             </button>
-            {user.isAdmin ? (
-              <button className="btn btn-primary me-2" onClick={handleLogout}>
-                Add User
-              </button>
-            ) : (
-              ""
-            )}
             {!isLoggedIn ? (
               <>
                 <button className="btn btn-primary me-2" onClick={handleLogin}>
